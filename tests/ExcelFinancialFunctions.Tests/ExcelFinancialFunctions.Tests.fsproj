@@ -64,11 +64,7 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\ExcelFinancialFunctions\ExcelFinancialFunctions.fsproj">
-      <Name>ExcelFinancialFunctions</Name>
-      <Project>{8853070c-d0b3-4de6-b80b-b1d10f839359}</Project>
-      <Private>True</Private>
-    </ProjectReference>
+    <ProjectReference Include="..\..\src\ExcelFinancialFunctions\ExcelFinancialFunctions.fsproj" />
   </ItemGroup>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5'">

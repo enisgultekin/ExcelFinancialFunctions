@@ -17,10 +17,11 @@ module internal Irr =
         let negatives = cfs |> Seq.map (fun cf -> if cf < 0. then cf else 0.)
         (((- npv reinvestRate positives) * ((1. + reinvestRate) ** n))/
          ((  npv financeRate negatives)  * ( 1. + financeRate ))) ** (1./(n - 1.)) - 1.
-    let xnpv r cfs dates =
+    let xnpv r cfs dates day =
         let d0 = Seq.head dates
-        cfs |> Seq.map2 (fun d cf -> cf / ((1. + r) ** (float (days d d0) / 365.))) dates |> Seq.sumBy idem
-    let xirr cfs dates guess = findRoot (fun r -> xnpv r cfs dates) guess
+        cfs |> Seq.map2 (fun d cf -> cf / ((1. + r) ** (float (days d d0) / day))) dates |> Seq.sumBy idem
+    let xirr cfs dates guess = findRoot (fun r -> xnpv r cfs dates 365.) guess
+    let dirr cfs dates day guess = findRoot(fun r-> xnpv r cfs dates day) guess
        
     // Preconditions and special cases
     let validCfs cfs =
@@ -54,5 +55,11 @@ module internal Irr =
         not(Seq.exists (fun x -> x < Seq.head dates) dates)   |> elseThrow "In dates, one date is less than the first date"
         (Seq.length cfs = Seq.length dates)                 |> elseThrow "cfs and dates must have the same length"
         xirr cfs dates guess
+
+    let calcDirr cfs dates day guess =
+        validCfs cfs                                        |> elseThrow "There must be one positive and one negative cash flow"
+        not(Seq.exists (fun x -> x < Seq.head dates) dates)   |> elseThrow "In dates, one date is less than the first date"
+        (Seq.length cfs = Seq.length dates)                 |> elseThrow "cfs and dates must have the same length"
+        dirr cfs dates day guess
         
                           

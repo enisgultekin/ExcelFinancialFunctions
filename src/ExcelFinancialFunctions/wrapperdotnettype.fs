@@ -254,6 +254,13 @@ type Financial =
     /// The internal rate of return for a schedule of cash flows that is not necessarily periodic ([learn more](http://office.microsoft.com/en-us/excel/HP052093411033.aspx))
     static member XIrr (values, dates) =
         calcXirr values dates 0.1
+
+    /// The internal rate of return for a schedule of cash flows that is not necessarily periodic ([learn more](http://office.microsoft.com/en-us/excel/HP052093411033.aspx))
+    static member DIrr (values, dates,day, guess) =
+        calcDirr values dates day guess
+    /// The internal rate of return for a schedule of cash flows that is not necessarily periodic ([learn more](http://office.microsoft.com/en-us/excel/HP052093411033.aspx))
+    static member DIrr (values, dates,day) =
+        calcDirr values dates day 0.1
     
     /// The net present value for a schedule of cash flows that is not necessarily periodic ([learn more](http://office.microsoft.com/en-us/excel/HP052093421033.aspx))
     static member XNpv (rate, values, dates) =
